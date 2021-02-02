@@ -382,6 +382,7 @@ class PopoverTooltip extends React.PureComponent<Props, State> {
         duration: this.props.timingConfig && this.props.timingConfig.duration
           ? this.props.timingConfig.duration
           : 200,
+          useNativeDriver: false,
       }
     );
     if (this.props.animationType == 'spring') {
@@ -407,6 +408,7 @@ class PopoverTooltip extends React.PureComponent<Props, State> {
           duration: this.props.opacityChangeDuration
             ? this.props.opacityChangeDuration
             : 200,
+            useNativeDriver: false,
         },
       ),
     ]).start();
@@ -421,6 +423,7 @@ class PopoverTooltip extends React.PureComponent<Props, State> {
           duration: this.props.opacityChangeDuration
             ? this.props.opacityChangeDuration
             : 200,
+            useNativeDriver: false,
         },
       ),
       Animated.timing(
@@ -430,6 +433,7 @@ class PopoverTooltip extends React.PureComponent<Props, State> {
           duration: this.props.opacityChangeDuration
             ? this.props.opacityChangeDuration
             : 200,
+            useNativeDriver: false,
         },
       ),
     ]).start(this.toggleModal);
