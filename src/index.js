@@ -176,14 +176,23 @@ class PopoverTooltip extends React.PureComponent<Props, State> {
       const tooltipContainerX_final = fullWidth > window.width
         ? window.width - tooltipContainerWidth
         : pageX + (width - tooltipContainerWidth) / 2;
-      let tooltipContainerY_final = this.state.tooltipTriangleDown
-        ? pageY - tooltipContainerHeight - 20
-        : pageY + tooltipContainerHeight - 20;
+
+      // INFO(NWA-369): THIS CODE WAS COMMENTED IN ORDER TO SOLVE AN ISSUE RELATE TO POSITION ON CONTACTS SCREEN
+      // let tooltipContainerY_final = this.state.tooltipTriangleDown
+      //   ? pageY - tooltipContainerHeight - 20
+      //   : pageY + tooltipContainerHeight - 20;
+      let tooltipContainerY_final = this.state.tooltipTriangleDown	
+        ? pageY - 20	
+        : pageY + 30;
+
       let tooltipTriangleDown = this.state.tooltipTriangleDown;
-      if (pageY - tooltipContainerHeight - 20 < 0) {
-        tooltipContainerY_final = pageY + height + 20;
-        tooltipTriangleDown = false;
-      }
+
+      // INFO(NWA-369): THIS CODE WAS COMMENTED IN ORDER TO SOLVE AN ISSUE RELATE TO POSITION ON CONTACTS SCREEN
+      // if (pageY - tooltipContainerHeight - 20 < 0) {
+      //   tooltipContainerY_final = pageY + height + 20;
+      //   tooltipTriangleDown = false;
+      // }
+      
       if (pageY + tooltipContainerHeight + 80 > window.height) {
         tooltipContainerY_final = pageY - tooltipContainerHeight - 20;
         tooltipTriangleDown = true;
