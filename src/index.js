@@ -36,6 +36,7 @@ type Props = {
   labelSeparatorColor: string,
   labelStyle?: StyleObj,
   setBelow: bool,
+  parentName: string,
   animationType?: "timing" | "spring",
   onRequestClose: () => void,
   triangleOffset: number,
@@ -82,6 +83,7 @@ class PopoverTooltip extends React.PureComponent<Props, State> {
     labelSeparatorColor: PropTypes.string,
     labelStyle: Text.propTypes.style,
     setBelow: PropTypes.bool,
+    parentName: PropTypes.string,
     animationType: PropTypes.oneOf([ "timing", "spring" ]),
     onRequestClose: PropTypes.func,
     triangleOffset: PropTypes.number,
@@ -99,6 +101,7 @@ class PopoverTooltip extends React.PureComponent<Props, State> {
     labelSeparatorColor: "#E1E1E1",
     onRequestClose: () => {},
     setBelow: false,
+    parentName: null,
     delayLongPress: 100,
     triangleOffset: 0,
   };
@@ -116,6 +119,7 @@ class PopoverTooltip extends React.PureComponent<Props, State> {
       tooltipContainerScale: new Animated.Value(0),
       buttonComponentContainerScale: 1,
       tooltipTriangleDown: !props.setBelow,
+      hasParentName: props.parentName,
       tooltipTriangleLeftMargin: 0,
       triangleOffset: props.triangleOffset,
       willPopUp: false,
@@ -177,21 +181,27 @@ class PopoverTooltip extends React.PureComponent<Props, State> {
         ? window.width - tooltipContainerWidth
         : pageX + (width - tooltipContainerWidth) / 2;
 
-      // INFO(NWA-369): THIS CODE WAS COMMENTED IN ORDER TO SOLVE AN ISSUE RELATE TO POSITION ON CONTACTS SCREEN
-      // let tooltipContainerY_final = this.state.tooltipTriangleDown
-      //   ? pageY - tooltipContainerHeight - 20
-      //   : pageY + tooltipContainerHeight - 20;
-      let tooltipContainerY_final = this.state.tooltipTriangleDown	
-        ? pageY - 20	
-        : pageY + 30;
+        let tooltipContainerY_final = null;
+        let tooltipTriangleDown = null;
 
-      let tooltipTriangleDown = this.state.tooltipTriangleDown;
 
-      // INFO(NWA-369): THIS CODE WAS COMMENTED IN ORDER TO SOLVE AN ISSUE RELATE TO POSITION ON CONTACTS SCREEN
-      // if (pageY - tooltipContainerHeight - 20 < 0) {
-      //   tooltipContainerY_final = pageY + height + 20;
-      //   tooltipTriangleDown = false;
-      // }
+      if (this.state.hasParentName) {
+        tooltipContainerY_final = this.state.tooltipTriangleDown		
+          ? pageY - 20		
+          : pageY + 30;
+
+      } else {
+        tooltipContainerY_final = this.state.tooltipTriangleDown
+          ? pageY - tooltipContainerHeight - 20
+          : pageY + tooltipContainerHeight - 20;
+
+        tooltipTriangleDown = this.state.tooltipTriangleDown;
+
+        if (pageY - tooltipContainerHeight - 20 < 0) {
+          tooltipContainerY_final = pageY + height + 20;
+          tooltipTriangleDown = false;
+        }
+      }
       
       if (pageY + tooltipContainerHeight + 80 > window.height) {
         tooltipContainerY_final = pageY - tooltipContainerHeight - 20;
